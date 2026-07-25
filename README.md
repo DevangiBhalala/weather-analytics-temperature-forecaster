@@ -33,11 +33,13 @@ The project also analyzes weather patterns, seasonal variations, extreme tempera
 - 🌐 Interactive Streamlit web application
 - 💾 Saved trained ML pipeline using Joblib
 
-  ## 📊 Dataset & Data Analysis
+---
+
+# 📊 Dataset & Data Analysis
 
 The project uses a weather dataset containing observations from multiple countries and locations around the world.
 
-### Dataset Overview
+## Dataset Overview
 
 | Attribute | Value |
 |---|---:|
@@ -51,7 +53,7 @@ The project uses a weather dataset containing observations from multiple countri
 | Date Range | May 16, 2024 – May 22, 2026 |
 | Target Variable | `temperature_celsius` |
 
-### Target Variable Statistics
+## Target Variable Statistics
 
 The target variable for the regression problem is `temperature_celsius`.
 
@@ -66,7 +68,7 @@ The target variable for the regression problem is `temperature_celsius`.
 | 75th Percentile | 27.80 |
 | Maximum | 46.70 |
 
-### Dataset Characteristics
+## Dataset Characteristics
 
 The dataset contains weather observations across different geographical locations and time periods.
 
@@ -74,18 +76,19 @@ Key observations from the analysis include:
 
 - Data collected from **186 unique countries**.
 - Data covers **217 unique locations**.
-- The dataset contains observations from **2024, 2025, and 2026**.
-- The data includes **25 unique months** across the available date range.
+- The data includes observations from **2024, 2025, and 2026**.
+- The dataset contains **25 unique months** across the available date range.
 - The dataset contains **no duplicate rows**.
 - No missing values were found in the analyzed dataset.
 - Each location-date combination represents a unique observation in the dataset.
 
 ---
-## 🛠️ Feature Engineering & Data Preprocessing
+
+# 🛠️ Feature Engineering & Data Preprocessing
 
 Several preprocessing and feature engineering steps were performed to prepare the dataset for machine learning.
 
-### 1. Date-Time Feature Extraction
+## 1. Date-Time Feature Extraction
 
 The `last_updated` timestamp was converted into useful temporal features:
 
@@ -98,7 +101,7 @@ The `last_updated` timestamp was converted into useful temporal features:
 
 These features help the model capture seasonal and time-dependent temperature patterns.
 
-### 2. Seasonal Feature
+## 2. Seasonal Feature
 
 A categorical `season` feature was created to represent:
 
@@ -109,7 +112,7 @@ A categorical `season` feature was created to represent:
 
 The `season` feature was encoded using One-Hot Encoding during model preprocessing.
 
-### 3. Cyclical Time Encoding
+## 3. Cyclical Time Encoding
 
 Cyclical transformations were applied to capture the continuous nature of periodic time features.
 
@@ -122,16 +125,16 @@ The following features were created:
 
 This allows the model to understand relationships such as the similarity between December and January or between 23:00 and 00:00.
 
-### 4. Selected Model Features
+## 4. Selected Model Features
 
 The final model uses **31 features** divided into numerical and categorical variables.
 
-#### Geographical Features
+### Geographical Features
 
 - `latitude`
 - `longitude`
 
-#### Weather Features
+### Weather Features
 
 - `wind_kph`
 - `wind_degree`
@@ -143,7 +146,7 @@ The final model uses **31 features** divided into numerical and categorical vari
 - `uv_index`
 - `gust_kph`
 
-#### Air Quality Features
+### Air Quality Features
 
 - `air_quality_Carbon_Monoxide`
 - `air_quality_Ozone`
@@ -154,11 +157,11 @@ The final model uses **31 features** divided into numerical and categorical vari
 - `air_quality_us-epa-index`
 - `air_quality_gb-defra-index`
 
-#### Environmental Features
+### Environmental Features
 
 - `moon_illumination`
 
-#### Temporal Features
+### Temporal Features
 
 - `year`
 - `month`
@@ -167,18 +170,18 @@ The final model uses **31 features** divided into numerical and categorical vari
 - `day_of_year`
 - `day_of_week`
 
-#### Cyclical Features
+### Cyclical Features
 
 - `month_sin`
 - `month_cos`
 - `hour_sin`
 - `hour_cos`
 
-#### Categorical Feature
+### Categorical Feature
 
 - `season`
 
-### 5. Data Leakage Prevention
+## 5. Data Leakage Prevention
 
 A leakage check was performed before model training.
 
@@ -192,7 +195,7 @@ The following features were removed because they directly represented the target
 
 The final model predicts `temperature_celsius` without using these potentially leaking variables as input features.
 
-### 6. Preprocessing Pipeline
+## 6. Preprocessing Pipeline
 
 A Scikit-learn `ColumnTransformer` and `Pipeline` were used to ensure consistent preprocessing and model training.
 
@@ -203,11 +206,12 @@ A Scikit-learn `ColumnTransformer` and `Pipeline` were used to ensure consistent
 This pipeline was saved as a single `.pkl` file using Joblib for use in the Streamlit application.
 
 ---
-## 🤖 Model Development & Evaluation
+
+# 🤖 Model Development & Evaluation
 
 Multiple regression models were trained and evaluated to identify the best-performing model for temperature prediction.
 
-### Train-Test Strategy
+## Train-Test Strategy
 
 A time-based train-test split was used to simulate real-world forecasting conditions.
 
@@ -220,7 +224,7 @@ The model was trained on historical observations from **2024 and 2025** and eval
 
 This approach helps prevent future data from being used during training and provides a more realistic evaluation of forecasting performance.
 
-### Model Comparison
+## Model Comparison
 
 | Model | MAE (°C) | RMSE (°C) | R² Score |
 |---|---:|---:|---:|
@@ -230,7 +234,7 @@ This approach helps prevent future data from being used during training and prov
 | Tuned XGBoost | **2.7986** | **3.9315** | **0.8568** |
 | Cold-Aware XGBoost | 2.7971 | 3.9590 | 0.8548 |
 
-### Final Model
+## Final Model
 
 The **Tuned XGBoost Regressor** was selected as the final model based on its overall performance on the unseen 2026 test set.
 
@@ -242,7 +246,7 @@ Final performance:
 
 On average, the model's predictions differ from the actual temperature by approximately **2.8 °C** based on the test-set MAE.
 
-### Hyperparameter Tuning
+## Hyperparameter Tuning
 
 Hyperparameter tuning was performed using cross-validation to improve the baseline XGBoost model.
 
@@ -255,178 +259,3 @@ max_depth = 5
 min_child_weight = 5
 subsample = 0.7
 colsample_bytree = 0.7
-
----
-## 🔍 Error Analysis & Key Insights
-
-After training the models, detailed error analysis was performed to understand where the final model performs well and where it struggles.
-
-### 1. Residual Analysis
-
-The residuals were analyzed using the unseen 2026 test set.
-
-Key residual statistics:
-
-- **Mean Residual:** -0.95 °C
-- **Residual Standard Deviation:** 3.82 °C
-- **Minimum Residual:** -17.38 °C
-- **Maximum Residual:** 11.16 °C
-
-The negative mean residual indicates that the model tends to slightly overpredict temperatures on average.
-
-### 2. Extreme Temperature Analysis
-
-The dataset was analyzed to identify extreme temperature observations.
-
-| Temperature Range | Number of Records |
-|---|---:|
-| -30°C to -15°C | 5 |
-| -15°C to -10°C | 19 |
-| -10°C to 0°C | 111 |
-| 0°C to 10°C | 592 |
-| 10°C to 20°C | 1,121 |
-| 20°C to 30°C | 2,532 |
-| 30°C to 40°C | 587 |
-| 40°C to 50°C | 33 |
-
-Additional observations:
-
-- **135 observations** had temperatures at or below 0°C.
-- **24 observations** had temperatures at or below -10°C.
-- **5 observations** had temperatures at or below -15°C.
-- **160 observations** had temperatures at or above 35°C.
-
-### 3. Cold Temperature Performance
-
-The model showed significantly higher prediction error for cold-weather observations.
-
-| Category | Records | MAE (°C) |
-|---|---:|---:|
-| Cold (≤ 0°C) | 55 | 9.31 |
-| Normal (> 0°C) | 886 | 2.39 |
-
-This indicates that the model performs much better for normal and warmer temperatures than for extreme cold temperatures.
-
-A cold-aware XGBoost approach was also tested using sample weighting. However, it did not improve overall test-set performance:
-
-- **Tuned XGBoost MAE:** 2.80 °C
-- **Cold-Aware XGBoost MAE:** 2.80 °C
-
-Therefore, the original tuned XGBoost model was retained as the final model.
-
-### 4. Feature Importance
-
-Feature importance analysis was performed using the final XGBoost model.
-
-The most influential features included:
-
-1. `season_Summer`
-2. `uv_index`
-3. `season_Winter`
-4. `month_cos`
-5. `pressure_mb`
-6. `latitude`
-7. `month_sin`
-8. `hour_cos`
-9. `hour`
-10. `longitude`
-
-These results indicate that **seasonal, geographical, temporal, and atmospheric factors** play an important role in temperature prediction.
-
-### 5. Worst Predictions
-
-The highest prediction errors were primarily observed in extremely cold winter conditions.
-
-For example, some of the largest errors occurred for locations such as:
-
-- Riga, Latvia
-- Bern, Switzerland
-- Ottawa, Canada
-- Ljubljana, Slovenia
-- Vilnius, Lithuania
-- Moscow, Russia
-- Kyiv, Ukraine
-
-The model often underestimated the severity of extremely low temperatures, suggesting that the dataset contains relatively fewer extreme cold observations compared with normal temperature ranges.
-
-### Key Insights
-
-The analysis suggests that:
-
-- Seasonal information is highly important for temperature prediction.
-- Geographical location, especially latitude, strongly influences temperature.
-- UV index and atmospheric pressure are important predictive variables.
-- The model performs well on typical temperature ranges.
-- Extreme cold temperatures are significantly more difficult to predict.
-- Time-based evaluation provides a more realistic estimate of forecasting performance than a random split.
-- Additional historical observations from cold regions and extreme winter conditions could potentially improve cold-weather prediction.
-
----
-## 🌐 Streamlit Application
-
-An interactive web application was developed using Streamlit to allow users to generate temperature predictions using the trained machine learning model.
-
-### Application Inputs
-
-Users can provide the following information:
-
-#### 📍 Location & Date/Time
-
-- Latitude
-- Longitude
-- Prediction date
-- Prediction time
-
-#### 🌦️ Weather Conditions
-
-- Wind speed
-- Wind direction
-- Atmospheric pressure
-- Precipitation
-- Humidity
-- Cloud cover
-- Visibility
-- UV index
-- Wind gust speed
-
-#### 🌫️ Air Quality
-
-- Carbon Monoxide (CO)
-- Ozone (O₃)
-- Nitrogen Dioxide (NO₂)
-- Sulphur Dioxide (SO₂)
-- PM2.5
-- PM10
-- US EPA Air Quality Index
-- UK DEFRA Air Quality Index
-
-#### 🌙 Seasonal & Environmental Factors
-
-- Season
-- Moon illumination
-
-### Prediction Output
-
-After entering the required information, the application generates:
-
-- 🌡️ Predicted temperature in Celsius
-- 🌤️ Temperature category
-- 📋 Prediction summary
-- 📍 Location information
-- 📅 Prediction date and time
-- 🌦️ Selected weather conditions
-- 📊 Final model performance metrics
-- 📈 Feature importance visualization
-
-### Model Performance Displayed in Application
-
-The Streamlit application displays the performance of the final model:
-
-- **MAE:** 2.80 °C
-- **RMSE:** 3.93 °C
-- **R² Score:** 0.857
-
-The model used in the application is the **Tuned XGBoost Regression model**, saved as:
-
-```text
-weather_temperature_forecaster.pkl
