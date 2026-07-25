@@ -53,6 +53,58 @@ The project uses a weather dataset containing observations from multiple countri
 | Date Range | May 16, 2024 – May 22, 2026 |
 | Target Variable | `temperature_celsius` |
 
+# 📊 Dataset
+
+**Dataset Source:** [Global Weather Repository – Kaggle](https://www.kaggle.com/datasets/nelgiriyewithana/global-weather-repository/code)
+
+**Dataset Name:** Global Weather Repository
+
+The original dataset contains:
+
+- 142,000+ weather records
+- 40+ weather and environmental features
+- Global city-level weather information
+
+## 📦 Dataset Used in This Project
+
+The original Global Weather Repository is a large dataset containing more than 142,000 records. Due to the large dataset size and GitHub file size limitations, the complete dataset is not included in this repository.
+
+For this project, a representative sample of **5,000 weather observations** was extracted from the original dataset and used for machine learning development.
+
+The 5,000-record sample was used for:
+
+- Exploratory Data Analysis (EDA)
+- Data preprocessing
+- Feature engineering
+- Model training
+- Model comparison
+- Hyperparameter tuning
+- Error analysis
+- Model evaluation
+
+The final model was trained and evaluated using this sampled dataset.
+
+### Dataset Statistics Used in the Project
+
+| Attribute | Value |
+|---|---:|
+| Records Used | 5,000 |
+| Initial Features | 45 |
+| Final Model Features | 31 |
+| Unique Countries | 186 |
+| Unique Locations | 217 |
+| Duplicate Rows | 0 |
+| Missing Values | 0 |
+| Target Variable | `temperature_celsius` |
+
+> **Note:** The complete original dataset is not included in this GitHub repository due to its large size. The reported model performance is based on the 5,000-record sample used during project development and should not be interpreted as performance on the complete 142,000+ record dataset.
+
+The trained machine learning pipeline is included in the repository as:
+
+`weather_temperature_forecaster.pkl`
+
+This allows the Streamlit application to generate predictions without requiring the complete original dataset.
+
 ## Target Variable Statistics
 
 The target variable for the regression problem is `temperature_celsius`.
